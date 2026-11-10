@@ -3,6 +3,8 @@
 <head>
 <!-- Meta Pixel Code -->
 <script>
+
+
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -11,11 +13,11 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1074805285425681');
+fbq('init', '2962757644126496');
 fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1074805285425681&ev=PageView&noscript=1"
+src="https://www.facebook.com/tr?id=2962757644126496&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
@@ -36,10 +38,34 @@ src="https://www.facebook.com/tr?id=1074805285425681&ev=PageView&noscript=1"
 .footer{background:#111;color:#777;text-align:center;padding:25px;font-size:11px}
 #thanks{display:none;text-align:center;padding:70px 20px}.tick{font-size:50px;color:#16834b}
 @media(max-width:720px){.wrap{padding:0 15px}.heroGrid,.showGrid{grid-template-columns:1fr}.hero h1{font-size:39px}.photo{order:-1}.stripGrid{grid-template-columns:1fr 1fr;gap:20px}.features{grid-template-columns:1fr 1fr}.form{grid-template-columns:1fr}.full{grid-column:auto}.reviews{grid-template-columns:1fr}.section{padding:48px 0}.showGrid h2{font-size:32px}}
+
+.sale-banner{background:linear-gradient(110deg,#b20d22,#ef4b35);color:#fff;text-align:center;padding:13px 12px 12px;font-weight:900;letter-spacing:.7px}
+.sale-banner .sale-title{font-size:20px;line-height:1.2}
+.sale-banner .sale-dates{font-size:11px;letter-spacing:1.5px;margin-top:4px}
+.sale-banner .count-label{font-size:10px;font-weight:800;letter-spacing:1.2px;margin-top:9px;opacity:.9}
+.sale-countdown{display:flex;justify-content:center;gap:8px;margin-top:5px}
+.sale-countdown .time-box{background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.3);border-radius:4px;min-width:48px;padding:5px 7px 4px}
+.sale-countdown strong{display:block;font-size:19px;line-height:1.1;font-variant-numeric:tabular-nums}
+.sale-countdown small{display:block;font-size:8px;letter-spacing:1px;margin-top:3px}
+@media(max-width:480px){.sale-banner{padding:11px 8px}.sale-banner .sale-title{font-size:17px}.sale-countdown{gap:5px}.sale-countdown .time-box{min-width:43px;padding:5px}.sale-countdown strong{font-size:17px}}
+
 </style>
 </head>
 <body>
 <div id="site">
+
+<div class="sale-banner" role="region" aria-label="11.11 Sale">
+  <div class="sale-title">🔥 11.11 MEGA SALE 🔥</div>
+  <div class="sale-dates">11TH – 17TH NOVEMBER · LIMITED-TIME OFFERS</div>
+  <div class="count-label" id="saleCountdownLabel">SALE STARTS IN</div>
+  <div class="sale-countdown" id="saleCountdown" aria-live="polite">
+    <div class="time-box"><strong id="saleDays">00</strong><small>DAYS</small></div>
+    <div class="time-box"><strong id="saleHours">00</strong><small>HOURS</small></div>
+    <div class="time-box"><strong id="saleMinutes">00</strong><small>MINUTES</small></div>
+    <div class="time-box"><strong id="saleSeconds">00</strong><small>SECONDS</small></div>
+  </div>
+</div>
+
 <div class="top"><div><span>🚚 CASH ON DELIVERY</span><span>🔥 45% OFF — RS. 900</span><span>📦 DELIVERY RS. 200</span><span>✓ EASY ORDER PROCESS</span><span>⚡ LIMITED-TIME OFFER</span></div></div>
 
 <section class="hero"><div class="wrap heroGrid">
@@ -199,18 +225,70 @@ fetch(GOOGLE_SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'ap
  .catch(()=>{});
 
 
-fbq('track', 'Purchase', {
-  value: unit * n + delivery,
-  currency: 'PKR',
-  content_name: 'Back Posture Corrector Belt',
-  content_type: 'product',
-  contents: [{id: 'back-posture-corrector-belt', quantity: n}]
-});
-
+// Display the thank-you page, then record one Purchase event for this order.
 document.getElementById('site').style.display='none';
 document.getElementById('thanks').style.display='block';
 window.scrollTo(0,0);
+
+if(!window.purchaseEventTracked){
+  window.purchaseEventTracked = true;
+  if(typeof fbq === 'function'){
+    fbq('track', 'Purchase', {
+      value: unit * n + delivery,
+      currency: 'PKR',
+      content_name: 'Back Posture Corrector Belt',
+      content_type: 'product',
+      contents: [{id: 'back-posture-corrector-belt', quantity: n}],
+      order_id: orderNo
+    });
+  }
+}
 });
+</script>
+<script>
+// 11.11 Sale countdown: Pakistan Standard Time (UTC+05:00).
+// Sale runs from 11 Nov 2026 through 17 Nov 2026, inclusive.
+(function(){
+  const saleStart = new Date('2026-11-11T00:00:00+05:00').getTime();
+  const saleEnd = new Date('2026-11-18T00:00:00+05:00').getTime();
+  const label = document.getElementById('saleCountdownLabel');
+  const countdown = document.getElementById('saleCountdown');
+  const fields = {
+    days: document.getElementById('saleDays'),
+    hours: document.getElementById('saleHours'),
+    minutes: document.getElementById('saleMinutes'),
+    seconds: document.getElementById('saleSeconds')
+  };
+  const pad = value => String(value).padStart(2, '0');
+
+  function updateSaleCountdown(){
+    const now = Date.now();
+    let target;
+    if(now < saleStart){
+      label.textContent = 'SALE STARTS IN';
+      target = saleStart;
+    } else if(now < saleEnd){
+      label.textContent = 'SALE ENDS IN';
+      target = saleEnd;
+    } else {
+      label.textContent = '11.11 SALE HAS ENDED';
+      countdown.style.display = 'none';
+      return;
+    }
+
+    const remaining = Math.max(0, target - now);
+    const days = Math.floor(remaining / 86400000);
+    const hours = Math.floor((remaining % 86400000) / 3600000);
+    const minutes = Math.floor((remaining % 3600000) / 60000);
+    const seconds = Math.floor((remaining % 60000) / 1000);
+    fields.days.textContent = pad(days);
+    fields.hours.textContent = pad(hours);
+    fields.minutes.textContent = pad(minutes);
+    fields.seconds.textContent = pad(seconds);
+  }
+  updateSaleCountdown();
+  setInterval(updateSaleCountdown, 1000);
+})();
 </script>
 </body>
 </html>
