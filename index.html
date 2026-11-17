@@ -54,9 +54,9 @@ src="https://www.facebook.com/tr?id=2962757644126496&ev=PageView&noscript=1"
 <body>
 <div id="site">
 
-<div class="sale-banner" role="region" aria-label="11.11 Sale">
+<div class="sale-banner" role="region" aria-label="11–21 November Sale">
   <div class="sale-title">🔥 11.11 MEGA SALE 🔥</div>
-  <div class="sale-dates">11TH – 17TH NOVEMBER · LIMITED-TIME OFFERS</div>
+  <div class="sale-dates">11TH – 21ST NOVEMBER · LIMITED-TIME OFFERS</div>
   <div class="count-label" id="saleCountdownLabel">SALE STARTS IN</div>
   <div class="sale-countdown" id="saleCountdown" aria-live="polite">
     <div class="time-box"><strong id="saleDays">00</strong><small>DAYS</small></div>
@@ -246,11 +246,11 @@ if(!window.purchaseEventTracked){
 });
 </script>
 <script>
-// 11.11 Sale countdown: Pakistan Standard Time (UTC+05:00).
-// Sale runs from 11 Nov 2026 through 17 Nov 2026, inclusive.
+// November Sale countdown: Pakistan Standard Time (UTC+05:00).
+// Sale runs from 11 Nov 2026 through 21 Nov 2026, inclusive.
 (function(){
   const saleStart = new Date('2026-11-11T00:00:00+05:00').getTime();
-  const saleEnd = new Date('2026-11-18T00:00:00+05:00').getTime();
+  const saleEnd = new Date('2026-11-22T00:00:00+05:00').getTime();
   const label = document.getElementById('saleCountdownLabel');
   const countdown = document.getElementById('saleCountdown');
   const fields = {
@@ -271,7 +271,7 @@ if(!window.purchaseEventTracked){
       label.textContent = 'SALE ENDS IN';
       target = saleEnd;
     } else {
-      label.textContent = '11.11 SALE HAS ENDED';
+      label.textContent = 'NOVEMBER SALE HAS ENDED';
       countdown.style.display = 'none';
       return;
     }
